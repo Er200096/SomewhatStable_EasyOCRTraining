@@ -183,9 +183,12 @@ class OCRDataset(Dataset):
             img = Image.open(img_fpath).convert('RGB')  # for color image
         else:
             img = Image.open(img_fpath).convert('L')
-
-        if not self.opt.sensitive:
-            label = label.lower()
+        try:
+            if not self.opt.sensitive:
+                label = label.lower()
+        except:
+            pass
+        label = str(label)
 
         # We only train and evaluate on alphanumerics (or pre-defined character set in train.py)
         out_of_char = f'[^{self.opt.character}]'
